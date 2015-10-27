@@ -13,8 +13,10 @@ class ViewController: UIViewController {
     //@IBOutlet creates the UI connection for easy access
     //optinal so intitlized to nil automatically
     //implicitly unwrapped optional
-    @IBOutlet weak var display: UILabel!
+   
+    @IBOutlet weak var history: UILabel!
     
+    @IBOutlet weak var display: UILabel!
     var userIsInMiddleOfTypingANumber = false
     var brain = CalculatorBrain();
     
