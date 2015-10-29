@@ -60,40 +60,42 @@ class CalculatorBrain {
     }
     
     //helper
-    private func evaluate(ops: [Op]) -> (result: Double?, remainingStack: [Op]) {
+    private func evaluate(ops: [Op]) -> (result: Double?, remainingStack: [Op], operationCalculated : String) {
         if (!ops.isEmpty) {
             var remainingOps = ops
             let op  = remainingOps.removeLast()
             
             switch op {
             case .Operand(let operand):
-                return (operand, remainingOps)
-            case .UnaryOperation(_, let operation):
+                return (operand, remainingOps, "\(operand)")
+            case .UnaryOperation(let symbol, let operation):
                 let opEval = evaluate(remainingOps)
                 if let op1 = opEval.result {
-                    return(operation (op1), opEval.remainingStack)
+                    return(operation (op1), opEval.remainingStack, symbol + " ( \(op1) )")
                 }
-            case .BinaryOperation(_, let operation):
+            case .BinaryOperation(let symbol, let operation):
                 let opEval = evaluate(remainingOps)
                 if let op1 = opEval.result {
                     let opEval2 = evaluate(opEval.remainingStack)
                     if let op2 = opEval2.result {
-                        return (operation(op1, op2), opEval2.remainingStack)
+                        return (operation(op1, op2), opEval2.remainingStack, " [ \(op1) " + symbol + " \(op2) ]")
                     }
                 }
                 
                 
             }
         }
-        return(nil, ops)
+        return(nil, ops, "Error")
         
     }
     
     func evaluate () -> Double? {
-        let (result, remainder) = evaluate(opStack)
+        let (result, remainder, evaluatedOperation) = evaluate(opStack)
         print("\(opStack) = \(result) with \(remainder) left over" )
+        print(evaluatedOperation)
         return result
     }
+    
     
     // FIXME: make return optional or figure out a better way to reset screen
     func clearStack() -> Double {

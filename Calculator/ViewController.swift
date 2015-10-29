@@ -64,6 +64,7 @@ class ViewController: UIViewController {
         }
         set {
             //if you do displayValue = 5, newValue gets that
+            
             display.text! = "\(newValue)"
             userIsInMiddleOfTypingANumber = false
         }
